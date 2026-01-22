@@ -1,109 +1,318 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>CO₂-Rechner</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f4f8;
-      color: #333;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #2c3e50;
-    }
-    label {
-      display: block;
-      margin-top: 20px;
-      font-weight: bold;
-    }
-    input, select {
-      padding: 8px;
-      margin-top: 5px;
-      width: 100%;
-      box-sizing: border-box;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 18px;
-      background-color: #2ecc71;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 100%;
-    }
-    button:hover {
-      background-color: #27ae60;
-    }
-    #ergebnis {
-      margin-top: 30px;
-      font-size: 20px;
-      font-weight: bold;
-      text-align: center;
-      color: #e74c3c;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Ultra CO₂ Rechner</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(135deg, #0b132b, #1c2541, #3a506b);
+    color: white;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px;
+}
+
+h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+}
+
+.section {
+    margin-top: 50px;
+    padding: 30px;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(15px);
+}
+
+.section h2 {
+    margin-bottom: 20px;
+    color: #5bc0be;
+}
+
+.question {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    font-size: 1rem;
+}
+
+button {
+    margin-top: 40px;
+    width: 100%;
+    padding: 18px;
+    border-radius: 18px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #5bc0be, #3a86ff);
+    color: white;
+    cursor: pointer;
+}
+
+.result {
+    margin-top: 50px;
+    padding: 40px;
+    border-radius: 30px;
+    background: rgba(0,0,0,0.4);
+    display: none;
+}
+
+.result span {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #6fffe9;
+}
+</style>
 </head>
+
 <body>
+<div class="container">
 
-<h1>Interaktiver CO₂-Rechner</h1>
+<h1>🌍 Ultra CO₂-Fußabdruck Rechner</h1>
+<p>Beantworte alle Fragen – dein gesamter Jahres-CO₂-Ausstoß wird am Ende exakt addiert.</p>
 
-<label for="km">Entfernung in km:</label>
-<input type="number" id="km" placeholder="z.B. 10">
+<!-- ============================== -->
+<!-- 1. HAUSHALT & WOHNEN           -->
+<!-- ============================== -->
+<div class="section">
+<h2>🏠 Wohnen & Haushalt</h2>
 
-<label for="transport">Transportmittel wählen:</label>
-<select id="transport">
-  <option value="auto">Auto</option>
-  <option value="flugzeug">Flugzeug</option>
-  <option value="fahrrad">Fahrrad</option>
-  <option value="zug">Zug</option>
+<div class="question">
+<label>Wohnfläche (m²)</label>
+<input id="livingSpace" type="number">
+</div>
+
+<div class="question">
+<label>Anzahl Personen im Haushalt</label>
+<input id="persons" type="number">
+</div>
+
+<div class="question">
+<label>Stromverbrauch (kWh/Jahr)</label>
+<input id="electricity" type="number">
+</div>
+
+<div class="question">
+<label>Heizungsart</label>
+<select id="heating">
+<option value="0.25">Gas</option>
+<option value="0.32">Öl</option>
+<option value="0.18">Fernwärme</option>
+<option value="0.05">Wärmepumpe</option>
 </select>
+</div>
 
-<button onclick="berechneCO2()">CO₂ berechnen</button>
+<div class="question">
+<label>Heizenergie (kWh/Jahr)</label>
+<input id="heatingEnergy" type="number">
+</div>
+</div>
 
-<p id="ergebnis"></p>
+<!-- ============================== -->
+<!-- 2. MOBILITÄT                   -->
+<!-- ============================== -->
+<div class="section">
+<h2>🚗 Mobilität</h2>
+
+<div class="question">
+<label>Auto-Kilometer pro Jahr</label>
+<input id="carKm" type="number">
+</div>
+
+<div class="question">
+<label>Auto-Typ</label>
+<select id="carType">
+<option value="0.25">Benzin</option>
+<option value="0.23">Diesel</option>
+<option value="0.15">Hybrid</option>
+<option value="0.05">Elektro</option>
+</select>
+</div>
+
+<div class="question">
+<label>ÖPNV Kilometer pro Jahr</label>
+<input id="publicKm" type="number">
+</div>
+
+<div class="question">
+<label>Flugkilometer Kurzstrecke</label>
+<input id="flightShort" type="number">
+</div>
+
+<div class="question">
+<label>Flugkilometer Langstrecke</label>
+<input id="flightLong" type="number">
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 3. ERNÄHRUNG                   -->
+<!-- ============================== -->
+<div class="section">
+<h2>🥗 Ernährung</h2>
+
+<div class="question">
+<label>Ernährungsstil</label>
+<select id="foodType">
+<option value="1.3">Vegan</option>
+<option value="1.8">Vegetarisch</option>
+<option value="2.6">Gemischt</option>
+<option value="3.6">Stark Fleischlastig</option>
+</select>
+</div>
+
+<div class="question">
+<label>Lebensmittel-Verschwendung (1 = kaum, 5 = sehr viel)</label>
+<select id="waste">
+<option value="1">1</option>
+<option value="1.1">2</option>
+<option value="1.2">3</option>
+<option value="1.35">4</option>
+<option value="1.5">5</option>
+</select>
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 4. KONSUM                      -->
+<!-- ============================== -->
+<div class="section">
+<h2>🛒 Konsum & Lifestyle</h2>
+
+<div class="question">
+<label>Neue Kleidung pro Jahr (Anzahl)</label>
+<input id="clothes" type="number">
+</div>
+
+<div class="question">
+<label>Elektronische Geräte pro Jahr</label>
+<input id="electronics" type="number">
+</div>
+
+<div class="question">
+<label>Online-Bestellungen pro Jahr</label>
+<input id="online" type="number">
+</div>
+</div>
+
+<!-- ============================== -->
+<!-- 5. DIGITAL                     -->
+<!-- ============================== -->
+<div class="section">
+<h2>💻 Digitales Verhalten</h2>
+
+<div class="question">
+<label>Streaming-Stunden pro Woche</label>
+<input id="streaming" type="number">
+</div>
+
+<div class="question">
+<label>Cloud-/Gaming-Nutzung (1–5)</label>
+<select id="cloud">
+<option value="1">1</option>
+<option value="1.1">2</option>
+<option value="1.25">3</option>
+<option value="1.4">4</option>
+<option value="1.6">5</option>
+</select>
+</div>
+</div>
+
+<button onclick="calculate()">🌱 Gesamten CO₂-Ausstoß berechnen</button>
+
+<!-- ============================== -->
+<!-- ERGEBNIS                       -->
+<!-- ============================== -->
+<div class="result" id="result">
+<h2>🌍 Dein jährlicher CO₂-Fußabdruck</h2>
+<p><span id="total"></span> kg CO₂ / Jahr</p>
+<p>🎯 Nachhaltiges Ziel: unter 2.000 kg</p>
+</div>
+
+</div>
 
 <script>
-function berechneCO2() {
-  const km = parseFloat(document.getElementById('km').value);
-  const transport = document.getElementById('transport').value;
+function calculate() {
 
-  if (isNaN(km) || km <= 0) {
-    document.getElementById('ergebnis').innerText = "Bitte eine gültige Entfernung eingeben!";
-    return;
-  }
+    // -------------------------------
+    // Wohnen
+    // -------------------------------
+    const electricity = +electricityInput() * 0.4;
+    const heating = +document.getElementById("heatingEnergy").value * 
+                    +document.getElementById("heating").value;
 
-  // CO2 Emissionen in kg pro km (grobe Durchschnittswerte)
-  let faktor = 0;
-  switch(transport) {
-    case 'auto':
-      faktor = 0.2;  // 0.2 kg CO2 pro km
-      break;
-    case 'flugzeug':
-      faktor = 0.25; // 0.25 kg CO2 pro km
-      break;
-    case 'fahrrad':
-      faktor = 0.0;  // Fahrrad verursacht quasi kein CO2
-      break;
-    case 'zug':
-      faktor = 0.05; // 0.05 kg CO2 pro km
-      break;
-  }
+    // -------------------------------
+    // Mobilität
+    // -------------------------------
+    const car = +document.getElementById("carKm").value *
+                +document.getElementById("carType").value;
 
-  const co2 = km * faktor;
-  document.getElementById('ergebnis').innerText = 
-    `Du verursachst ca. ${co2.toFixed(2)} kg CO₂ mit ${transport}.`;
+    const publicTransport = +document.getElementById("publicKm").value * 0.05;
+    const flightShort = +document.getElementById("flightShort").value * 0.25;
+    const flightLong = +document.getElementById("flightLong").value * 0.18;
+
+    // -------------------------------
+    // Ernährung
+    // -------------------------------
+    const food = +document.getElementById("foodType").value * 1000 *
+                 +document.getElementById("waste").value;
+
+    // -------------------------------
+    // Konsum
+    // -------------------------------
+    const clothes = +document.getElementById("clothes").value * 25;
+    const electronics = +document.getElementById("electronics").value * 300;
+    const online = +document.getElementById("online").value * 2;
+
+    // -------------------------------
+    // Digital
+    // -------------------------------
+    const streaming = +document.getElementById("streaming").value * 52 * 0.1 *
+                      +document.getElementById("cloud").value;
+
+    // -------------------------------
+    // SUMME
+    // -------------------------------
+    const total =
+        electricity + heating +
+        car + publicTransport + flightShort + flightLong +
+        food + clothes + electronics + online +
+        streaming;
+
+    document.getElementById("total").innerText =
+        Math.round(total);
+
+    document.getElementById("result").style.display = "block";
+}
+
+function electricityInput() {
+    return document.getElementById("electricity").value || 0;
 }
 </script>
 

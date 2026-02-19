@@ -65,9 +65,6 @@ input, select {
 button {
     margin-top: 40px;
     width: 100%;
-    padding: 18px;
-    border-radius: 18px;
-    border: none;
     font-size: 1.2rem;
     font-weight: 800;
     background: linear-gradient(135deg, #5bc0be, #3a86ff);
@@ -97,9 +94,7 @@ button {
 <h1>🌍 Ultra CO₂-Fußabdruck Rechner</h1>
 <p>Beantworte alle Fragen – dein gesamter Jahres-CO₂-Ausstoß wird am Ende exakt addiert.</p>
 
-<!-- ============================== -->
-<!-- 1. HAUSHALT & WOHNEN           -->
-<!-- ============================== -->
+
 <div class="section">
 <h2>🏠 Wohnen & Haushalt</h2>
 
@@ -296,9 +291,7 @@ function calculate() {
     const streaming = +document.getElementById("streaming").value * 52 * 0.1 *
                       +document.getElementById("cloud").value;
 
-    // -------------------------------
-    // SUMME
-    // -------------------------------
+    
     const total =
         electricity + heating +
         car + publicTransport + flightShort + flightLong +
